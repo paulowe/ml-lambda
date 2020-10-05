@@ -1,4 +1,4 @@
-# Deploying ML-models to AWS lambda
+# Deploying ML-models to AWS lambda for Symptom Checking
 
 See https://bweigel.github.io/pydata_bln_2018/#/ for slides & [Dockerhub](https://hub.docker.com/r/bweigel/ml_at_awslambda_pydatabln2018_autobuild/) for Docker images.
 
