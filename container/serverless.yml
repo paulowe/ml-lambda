@@ -1,0 +1,33 @@
+service: serverless-pharmassess
+
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.6
+  region: us-east-2
+
+  deploymentBucket:
+    name: srvlss-lambda
+
+
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+      - s3:GetObject
+      Resource:
+      - "arn:aws:s3:::srvlss-lambda/*"
+
+custom:
+  pythonRequirements:
+    slim: true
+
+functions:
+  prediction_ep:
+    name: prediction-ep
+    description: This is description for my lambda prediction function.
+    handler: main.lambda_handler
+    events:
+      - http: POST /diagnose
