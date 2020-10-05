@@ -20,9 +20,9 @@ The payloads will be forwarded to an AWS lambda function that Loads the model an
 
 ### Training Data and the Model
 
-You will have to generate the .pkl file yourself since it is large and cannot upload it to the repo
+You will have to train and generate the serialized .pkl file yourself since it is large and cannot be uploaded to this repo.
 
-Ask me [Paul Owe](https://www.paulowe.com) for the training data as well if it doesnt automatically download from my icloud.
+Ask me [Paul Owe](https://www.paulowe.com) for the training data as well if you are unable to automatically download from my icloud.
 
 
 ### Test lambda function locally
