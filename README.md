@@ -1,41 +1,43 @@
 # Deploying ML-models to AWS lambda
 
+### Intro
+
+In this project you will be using the [Serverless] Framework to deploy a Symptom classifier (trained using Sci-kit learn MLP Classifier) 
+
+This setup uses AWS Lambda and Api-Gateway behind the scenes.
+
+Api-Gateway will provide an API endpoint where Symptoms can be classified using the `POST` method with a JSON payload.
+
+The payloads will be forwarded to an AWS lambda function that Loads the model and does the actual classification. 
 
 ### Pre-requisites:
 
-**`<start importantInfo>`**
-
-- install [Docker](https://www.docker.com/community-edition)
-- download the docker image we will be working with (this should contain everything you need to work along):
-    - `docker pull bweigel/ml_at_awslambda_pydatabln2018_autobuild`
-- do items **1** to **3** in the **[Quickstart](https://github.com/bweigel/ml_at_awslambda_pydatabln2018#quickstart)**
-
-**`<end importantInfo>`**
-
-### Intro
-
-In this Workshop you will be using the [Serverless] Framework to deploy a pre-trained model (Neural Network Classifier) 
-
-Your cloud-service will use AWS Lambda and Api-Gateway behind the scenes.
-
-AWS Api-Gateway will provide a API endpoint where Symptoms can be classified using the `POST` method with a JSON payload.
-The payloads will be forwarded to a AWS lambda function that Loads the model and does the actual classification. 
-
+- Install [Docker](https://www.docker.com/community-edition)
+- Download the docker image: `docker pull bweigel/ml_at_awslambda_pydatabln2018_autobuild`
 
 ### Quickstart
 
-1. install and setup the [AWS Command Line Interface](https://aws.amazon.com/cli/)
+1. Install and setup the [AWS Command Line Interface](https://aws.amazon.com/cli/)
     - `pip install awscli`
     - `aws configure` (see [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html))
-3. clone this repo 
-    - and change into the project `cd ml-lambda`
-4. start docker container: `./start_docker.sh` 
+3. Clone this repo and change into the project `cd ml-lambda`
+4. Start docker container: `./start_docker.sh` 
 
 
-Test lambda function locally:
+### Test lambda function locally
+
+Run the following command with this payload to test the model. You can test your function locally using serverless (only works when you have a valid `serverless.yml`):
+
  ```
- sls invoke local -f categorizer_lambda --data '{"body": "<serialized-json>"}'
+sls invoke local -f prediction_ep --data '{"body":"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0]"}'
  ```
+ This tries to emulate the lambda runtime environment and runs the function `categorizer_lambda` with the provided `--data` as the `event`. For more info see [here](https://serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/).
+ 
+ 
+You can also test like this (no need for a valid `serverless.yml`):
+```bash
+python -c "import main; print(main.lambda_handler({"body":"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0]"}, None))"
+```
 
 ----------------------------------------------------------------------------------------------------
 
@@ -47,27 +49,8 @@ All the ML frameworks in Python are quite heavy weight when it comes to size. Ho
 
 There are a couple of tricks to reduce the size of your deployment zip-file. See [here](https://tech.europace.de/slimifying-aws-lambdas/) and the [resources section](https://github.com/bweigel/ml_at_awslambda_pydatabln2018#resources) for more info.
 
-## FAQ
-
-**How do I test my function?**
-You can test your function locally using serverless (only works when you have a valid `serverless.yml`):
-```
-sls invoke local -f categorizer_lambda --data '{"body": "<serialized-json>"}'
-```
-This tries to emulate the lambda runtime environment and runs the function `categorizer_lambda` with the provided `--data` as the `event`.
-
-Testing like that isn't perfect, but should work fine for almost every usecase.
-For more info see [here](https://serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/).
-
-LPT: Unittests are always a great idea and easy to write and use.
-
-You can also test like this (no need for a valid `serverless.yml`):
-```bash
-python -c "import main; print(main.lambda_handler({'body': 'foo'}, None))"
-```
-
-**How do I tear down my service stack?** 
-To remove the service in AWS just run `serverless remove` inside the `from_scratch` directory.
+**Removing service stack?** 
+To remove the service in AWS just run `serverless remove` inside the `container` directory.
 
 **How to run `start_docker.sh` in Windows?**
 Download Git for Windows (https://gitforwindows.org/) and install it. It comes with the Git BASH which you can use to run `start_docker.sh`.
@@ -75,7 +58,7 @@ Download Git for Windows (https://gitforwindows.org/) and install it. It comes w
 *If you run into errors:* You might need to set some environmental variables before running the command. 
 Do `export AWS_ACCESS_KEY_ID=<your aws access key id> AWS_SECRET_ACCESS_KEY=<your aws secret ccess key>` 
 
-run `./start_docker.sh` again.
+Run `./start_docker.sh` again.
 
 **Why use the serverless framework (and not something like the AWS Serverless Application Model, SAM)?**
 The serverless framework is the most mature tooling around for deploying serverless services. It is actively developed, 
@@ -83,8 +66,7 @@ has a big community and a rich ecosystem of plugins, which help with keeping our
 
 **What else is inside the `event` that is provided inside the `lambda_handler` function?** 
 Depending on the event type that triggers the function (e.g. SNS, SQS, Kinesis, Alexa...) the `event` payload will be different.
-We are using ApiGateway Proxy integration in this workshop. A sample proxy integration event can be seen [here](resources/apigateway_proxy_event_sample.json).
-You can see how the different events look through the AWS Lambda Console (go to `configure test event` and there will be a long list of events).
+We are using ApiGateway Proxy integration in this application. 
 
 ## Troubleshooting
 
@@ -142,3 +124,5 @@ You can see how the different events look through the AWS Lambda Console (go to 
 
 [1]: https://blog.mapbox.com/aws-lambda-python-magic-e0f6a407ffc6
 [Serverless]: https://serverless.com/framework/
+
+For other questions outside of this readme, ask me [Paul Owe](https://www.paulowe.com)
