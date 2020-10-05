@@ -18,6 +18,12 @@ The payloads will be forwarded to an AWS lambda function that Loads the model an
 3. Clone this repo and change into the project `cd ml-lambda`
 4. Start docker container: `./start_docker.sh` 
 
+### Training Data and the Model
+
+You will have to generate the .pkl file yourself since it is large and cannot upload it to the repo
+
+Ask me [Paul Owe](https://www.paulowe.com) for the training data as well if it doesnt automatically download from my icloud.
+
 
 ### Test lambda function locally
 
