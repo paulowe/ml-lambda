@@ -117,7 +117,7 @@ We are using ApiGateway Proxy integration in this application.
 
 ## Resources
 
-- [Dockerhub]. (https://hub.docker.com/search?q=&type=image) for Docker images.
+- [Dockerhub](https://hub.docker.com/search?q=&type=image) for Docker images.
 
 - [AWS Lambda Python magic. Tips for creating powerful Lambda functions.](https://blog.mapbox.com/aws-lambda-python-magic-e0f6a407ffc6)
 
