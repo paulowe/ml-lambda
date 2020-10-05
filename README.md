@@ -121,6 +121,6 @@ We are using ApiGateway Proxy integration in this application.
 
 - [AWS Lambda Python magic. Tips for creating powerful Lambda functions.](https://blog.mapbox.com/aws-lambda-python-magic-e0f6a407ffc6)
 
-- [Serverless]: https://serverless.com/framework/
+- [Serverless](https://serverless.com/framework/)
 
 For other questions outside of this README, ask me [Paul Owe](https://www.paulowe.com)
