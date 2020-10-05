@@ -1,12 +1,10 @@
 # Deploying ML-models to AWS lambda for Symptom Checking
 
-See https://bweigel.github.io/pydata_bln_2018/#/ for slides & [Dockerhub](https://hub.docker.com/r/bweigel/ml_at_awslambda_pydatabln2018_autobuild/) for Docker images.
 
-### PyData Attendees:
+### Pre-requisites:
 
 **`<start importantInfo>`**
 
-Since I am not sure how well the internet will work on the Charité premises I urge you to:
 - install [Docker](https://www.docker.com/community-edition)
 - download the docker image we will be working with (this should contain everything you need to work along):
     - `docker pull bweigel/ml_at_awslambda_pydatabln2018_autobuild`
@@ -16,38 +14,27 @@ Since I am not sure how well the internet will work on the Charité premises I u
 
 ### Intro
 
-In this Workshop you will be using the [Serverless] Framework to deploy a pre-trained model (Naive Bayes Classifier) 
-based on the [SMS Spam Collection dataset](https://www.kaggle.com/uciml/sms-spam-collection-dataset/version/1) to the cloud.
-The training was carried out like it is described [here](https://www.kaggle.com/mzsrtgzr2/naive-bayes-classifier-spam-ham).
-The code is located here: [`tutorial/training/train.py`](tutorial/training/train.py)
+In this Workshop you will be using the [Serverless] Framework to deploy a pre-trained model (Neural Network Classifier) 
 
 Your cloud-service will use AWS Lambda and Api-Gateway behind the scenes.
-AWS Api-Gateway will provide a API endpoint where texts can be classified using the `POST` method with the text as payload.
-The payloads will be forwarded to a AWS lambda function that knows the model and does the actual classification. 
+
+AWS Api-Gateway will provide a API endpoint where Symptoms can be classified using the `POST` method with a JSON payload.
+The payloads will be forwarded to a AWS lambda function that Loads the model and does the actual classification. 
 
 
 ### Quickstart
 
-1. create an AWS account at [https://aws.amazon.com](https://aws.amazon.com) if you have not already done so (see [Instruction](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/))
-    - you will need a credit card to do this, but you __will not be charged__ if you stay in the [free tier](https://aws.amazon.com/free/)
-    - **BEWARE** the S3 & ApiGateway capabilities, that we will be using, will only be free of charge for the first 12 months!
-    - [create a new user within IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) (do not use root user to do stuff in your account and be sure to use MFA and a secure password)
-    - [create an access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for programmatic access
-2. install and setup the [AWS Command Line Interface](https://aws.amazon.com/cli/)
+1. install and setup the [AWS Command Line Interface](https://aws.amazon.com/cli/)
     - `pip install awscli`
     - `aws configure` (see [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html))
-3. clone repo `git clone https://github.com/bweigel/ml_at_awslambda_pydatabln2018.git` 
-    - and change into the project `cd ml_at_awslambda_pydatabln2018`
-4. start docker container: `./start_docker.sh`
-5. work along merrily ... or, if you feel adventurous check out the [complete demo code](DEMO.md)    
+3. clone this repo 
+    - and change into the project `cd ml-lambda`
+4. start docker container: `./start_docker.sh` 
 
-**We will build this:**
-
-![architecture](https://bweigel.github.io/pydata_bln_2018/images/architecture.svg)
 
 Test lambda function locally:
  ```
- sls invoke local -f categorizer_lambda --data '{"body": "am i spam or am i ham?"}'
+ sls invoke local -f categorizer_lambda --data '{"body": "<serialized-json>"}'
  ```
 
 ----------------------------------------------------------------------------------------------------
@@ -56,8 +43,8 @@ Test lambda function locally:
 ## Things to keep in mind
 
 All the ML frameworks in Python are quite heavy weight when it comes to size. However for individual lambda deployments 
-(not as part of a cloudformation stack) there is a hard filesize limit of 50 MB enforced by AWS. This is not only because AWS 
-wants to screw with you, but because it wants developers to build apps with the highest performance.
+(not as part of a cloudformation stack) there is a hard filesize limit of 50 MB enforced by AWS. 
+
 There are a couple of tricks to reduce the size of your deployment zip-file. See [here](https://tech.europace.de/slimifying-aws-lambdas/) and the [resources section](https://github.com/bweigel/ml_at_awslambda_pydatabln2018#resources) for more info.
 
 ## FAQ
@@ -65,9 +52,10 @@ There are a couple of tricks to reduce the size of your deployment zip-file. See
 **How do I test my function?**
 You can test your function locally using serverless (only works when you have a valid `serverless.yml`):
 ```
-sls invoke local -f categorizer_lambda --data '{"body": "am i spam or am i ham?"}'
+sls invoke local -f categorizer_lambda --data '{"body": "<serialized-json>"}'
 ```
 This tries to emulate the lambda runtime environment and runs the function `categorizer_lambda` with the provided `--data` as the `event`.
+
 Testing like that isn't perfect, but should work fine for almost every usecase.
 For more info see [here](https://serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/).
 
@@ -83,8 +71,10 @@ To remove the service in AWS just run `serverless remove` inside the `from_scrat
 
 **How to run `start_docker.sh` in Windows?**
 Download Git for Windows (https://gitforwindows.org/) and install it. It comes with the Git BASH which you can use to run `start_docker.sh`.
+
 *If you run into errors:* You might need to set some environmental variables before running the command. 
-Do `export AWS_ACCESS_KEY_ID=<your aws access key id> AWS_SECRET_ACCESS_KEY=<your aws secret ccess key>` (see [Quickstart 1.](https://github.com/bweigel/ml_at_awslambda_pydatabln2018#quickstart) on how to obtain these) and 
+Do `export AWS_ACCESS_KEY_ID=<your aws access key id> AWS_SECRET_ACCESS_KEY=<your aws secret ccess key>` 
+
 run `./start_docker.sh` again.
 
 **Why use the serverless framework (and not something like the AWS Serverless Application Model, SAM)?**
@@ -145,6 +135,8 @@ You can see how the different events look through the AWS Lambda Console (go to 
     Run deploy outside a docker container, or set `custom.pythonRequirements.dockerizePip` to `false` in the `serverless.yml`.    
 
 ## Resources
+
+- See https://bweigel.github.io/pydata_bln_2018/#/ for slides & [Dockerhub]. (https://hub.docker.com/r/bweigel/ml_at_awslambda_pydatabln2018_autobuild/) for Docker images.
 
 - [AWS Lambda Python magic. Tips for creating powerful Lambda functions.][1] 
 
