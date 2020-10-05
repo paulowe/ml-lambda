@@ -1,4 +1,4 @@
-# Deploying ML-models to AWS lambda for Symptom Checking
+# Deploying ML-models to AWS lambda
 
 
 ### Pre-requisites:
