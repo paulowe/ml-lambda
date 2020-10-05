@@ -18,13 +18,6 @@ The payloads will be forwarded to an AWS lambda function that Loads the model an
 3. Clone this repo and change into the project `cd ml-lambda`
 4. Start docker container: `./start_docker.sh` 
 
-### Training Data and the Model
-
-You will have to train and generate the serialized .pkl file yourself since it is large and cannot be uploaded to this repo.
-
-Ask me [Paul Owe](https://www.paulowe.com) for the training data as well if you are unable to automatically download from my icloud.
-
-
 ### Test lambda function locally
 
 Run the following command with this payload to test the model. You can test your function locally using serverless (only works when you have a valid `serverless.yml`):
@@ -40,8 +33,13 @@ You can also test like this (no need for a valid `serverless.yml`):
 python -c "import main; print(main.lambda_handler({"body":"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0]"}, None))"
 ```
 
-----------------------------------------------------------------------------------------------------
+### Training Data and the Model
 
+You will have to train and generate the serialized .pkl file yourself since it is large and cannot be uploaded to this repo.
+
+Ask me [Paul Owe](https://www.paulowe.com) for the training data as well if you are unable to automatically download from my icloud.
+
+----------------------------------------------------------------------------------------------------
 
 ## Things to keep in mind
 
