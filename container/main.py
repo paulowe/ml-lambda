@@ -16,11 +16,11 @@ def get_model():
 
 
 def predict(event):
-   # print(event)
+    #print(event)
     body = event.get('body')
     data = json.loads(body)
-    arr = data.get('symptoms')
-    data = np.array([arr])
+    data = data.get('symptoms')
+    data = np.array([data])
     
     #record = data.transpose()
     #print(data)
