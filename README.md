@@ -17,7 +17,7 @@ The payloads will be forwarded to an AWS lambda function that Loads the model an
     - `aws configure` (see [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html))
 3. Clone this repo and change into the project `cd ml-lambda`
 4. Install requirements.txt `python -m pip install -r requirements.txt`
-5. Run `npm install` to install all npm modules
+5. Run `npm install` to install all node modules
 6. Start docker container: `./start_docker.sh` 
 
 ### Test lambda function locally
