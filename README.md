@@ -10,14 +10,9 @@ Api-Gateway will provide an API endpoint where Symptoms can be classified using 
 
 The payloads will be forwarded to an AWS lambda function that Loads the model and does the actual classification. 
 
-### Pre-requisites:
-
-- Install [Docker](https://www.docker.com/community-edition)
-- Download the docker image: `docker pull bweigel/ml_at_awslambda_pydatabln2018_autobuild`
-
 ### Quickstart
-
-1. Install and setup the [AWS Command Line Interface](https://aws.amazon.com/cli/)
+1. Install [Docker](https://www.docker.com/community-edition)
+2. Install and setup the [AWS Command Line Interface](https://aws.amazon.com/cli/)
     - `pip install awscli`
     - `aws configure` (see [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html))
 3. Clone this repo and change into the project `cd ml-lambda`
@@ -50,9 +45,11 @@ All the ML frameworks in Python are quite heavy weight when it comes to size. Ho
 There are a couple of tricks to reduce the size of your deployment zip-file. See [here](https://tech.europace.de/slimifying-aws-lambdas/) and the [resources section](https://github.com/bweigel/ml_at_awslambda_pydatabln2018#resources) for more info.
 
 **Removing service stack?** 
+
 To remove the service in AWS just run `serverless remove` inside the `container` directory.
 
 **How to run `start_docker.sh` in Windows?**
+
 Download Git for Windows (https://gitforwindows.org/) and install it. It comes with the Git BASH which you can use to run `start_docker.sh`.
 
 *If you run into errors:* You might need to set some environmental variables before running the command. 
@@ -61,10 +58,12 @@ Do `export AWS_ACCESS_KEY_ID=<your aws access key id> AWS_SECRET_ACCESS_KEY=<you
 Run `./start_docker.sh` again.
 
 **Why use the serverless framework (and not something like the AWS Serverless Application Model, SAM)?**
+
 The serverless framework is the most mature tooling around for deploying serverless services. It is actively developed, 
 has a big community and a rich ecosystem of plugins, which help with keeping our dependencies slim (see https://tech.europace.de/slimifying-aws-lambdas/) among other things.
 
 **What else is inside the `event` that is provided inside the `lambda_handler` function?** 
+
 Depending on the event type that triggers the function (e.g. SNS, SQS, Kinesis, Alexa...) the `event` payload will be different.
 We are using ApiGateway Proxy integration in this application. 
 
@@ -118,11 +117,10 @@ We are using ApiGateway Proxy integration in this application.
 
 ## Resources
 
-- See https://bweigel.github.io/pydata_bln_2018/#/ for slides & [Dockerhub]. (https://hub.docker.com/r/bweigel/ml_at_awslambda_pydatabln2018_autobuild/) for Docker images.
+- [Dockerhub]. (https://hub.docker.com/search?q=&type=image) for Docker images.
 
-- [AWS Lambda Python magic. Tips for creating powerful Lambda functions.][1] 
+- [AWS Lambda Python magic. Tips for creating powerful Lambda functions.](https://blog.mapbox.com/aws-lambda-python-magic-e0f6a407ffc6)
 
-[1]: https://blog.mapbox.com/aws-lambda-python-magic-e0f6a407ffc6
-[Serverless]: https://serverless.com/framework/
+- [Serverless]: https://serverless.com/framework/
 
-For other questions outside of this readme, ask me [Paul Owe](https://www.paulowe.com)
+For other questions outside of this README, ask me [Paul Owe](https://www.paulowe.com)
