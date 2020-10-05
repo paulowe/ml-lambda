@@ -125,4 +125,4 @@ We are using ApiGateway Proxy integration in this application.
 [1]: https://blog.mapbox.com/aws-lambda-python-magic-e0f6a407ffc6
 [Serverless]: https://serverless.com/framework/
 
-For other questions outside of this readme, ask me (Paul Owe)
+For other questions outside of this readme, ask me [Paul Owe](https://www.paulowe.com)
