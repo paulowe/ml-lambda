@@ -2,7 +2,7 @@
 
 ### Intro
 
-In this project you will be using the [Serverless] Framework to deploy a Symptom Classifier (trained using Sci-kit learn MLP Classifier) 
+In this project you will be using the Serverless Framework to deploy a Symptom Classifier (trained using Sci-kit learn MLP Classifier) 
 
 This setup uses AWS Lambda and Api-Gateway behind the scenes.
 
