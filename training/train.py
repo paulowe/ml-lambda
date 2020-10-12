@@ -43,13 +43,13 @@ B. Plot learning curves / Evaluation tactics
 
 #4. AUC, Accuracy, Precicision, Recall ...
 
-Lambda  = 0.2,  0.4, 0.6 .... 10.2
-theta1 -> Jcv?
-theta2 -> Jcv2?
-...
-theta10 -> Jcv10?
+    Lambda  = 0.2,  0.4, 0.6 .... 10.2
+    theta1 -> Jcv?
+    theta2 -> Jcv2?
+    ...
+    theta10 -> Jcv10?
 
-Pick optimal theta. Use optimal thata to find architecture.
+    Pick optimal theta based on lowest Jcv. Use it to find best architecture by varying.
 
 C. Potential action plans
 
