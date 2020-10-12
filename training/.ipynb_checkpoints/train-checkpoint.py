@@ -17,6 +17,28 @@ data = pd.read_csv('data/syntheticData.csv')
 X, y = data.iloc[:, 1:], data.iloc[:,0]
 
 
+'''
+A. Introduce CV set
+
+B. Plot learning curves / Evaluation tactics
+
+#1. Cost/Error - Lambda (Jcv , Jtrain)
+#2. Cost/Error - #layers (Jcv, Jtrain)
+#3. Cost/Error - # training examples (Jcv, Jtrain)
+#4. AUC, Accuracy, Precicision, Recall ...
+
+C. Potential action plans
+
+ - Get more training examples (fixes overfitting)
+ - Try smaller set of features (fixes overfitting)
+ - Try getting additional features (fixes underfitting)
+ - Add polynomial features (underfitting)
+ - decreasing lambda (fix underfitting)
+ - increasing lambda (fixes overfitting)
+
+'''
+
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, stratify=y)
 
 """
@@ -29,35 +51,3 @@ clf = clf.fit(X_train, y_train)
 Serialize Model
 """
 joblib.dump(clf, 'model/mlp.pkl')
-
-
-'''
-A. Introduce CV set
-
-B. Plot learning curves / Evaluation tactics
-
-#1. Cost/Error - Lambda (Jcv , Jtrain)
-#2. Cost/Error - #layers/ degree of polynomials (Jcv, Jtrain)
-
-#3. Cost/Error - # training examples (Jcv, Jtrain)
-
-#4. AUC, Accuracy, Precicision, Recall ...
-
-Lambda  = 0.2,  0.4, 0.6 .... 10.2
-theta1 -> Jcv?
-theta2 -> Jcv2?
-...
-theta10 -> Jcv10?
-
-Pick optimal theta. Use optimal thata to find architecture.
-
-C. Potential action plans
-
- - Get more training examples (fixes overfitting)
- - Try smaller set of features (fixes overfitting)
- - Try getting additional features (fixes underfitting)
- - Add polynomial features (fixes underfitting)
- - Decreasing lambda (fixes underfitting)
- - increasing lambda (fixes overfitting)
-
-'''
